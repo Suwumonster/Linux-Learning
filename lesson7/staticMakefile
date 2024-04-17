@@ -1,0 +1,7 @@
+staticlink-test:staticlink-test.c
+	gcc -o staticlink-test staticlink-test.c -static
+
+
+.PHONY:clean
+clean:
+	rm staticlink-test
