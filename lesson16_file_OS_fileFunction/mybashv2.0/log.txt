@@ -1,0 +1,5 @@
+1234
+log.txt
+makefile
+mybash
+mybash.c
