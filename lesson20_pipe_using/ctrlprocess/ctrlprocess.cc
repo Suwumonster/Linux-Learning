@@ -17,6 +17,12 @@ int main()
         if(id == 0)
         {
             //3.子进程关闭不需要的端口 --- 写端
+            for(int j = 0; j < i; j++)//fork fixed bug
+            {
+                close(cp[j]._fd);
+            }
+            //如果没有上面这个代码，父进程创建子进程，子进程会拷贝父进程的fd表中的写端。
+            //所以子进程需要关闭继承自父进程的写端，让对应pipe只能由父进程fd表指向。
             close(pipefd[1]);
             while(true)
             {
@@ -40,6 +46,7 @@ int main()
             }
             sleep(10);
             close(pipefd[0]);
+            cout << "父进程关闭写端, 我也退出了 pid:" << getpid() << endl;
             exit(0);
         }
         //3. 父进程关闭不需要的端口 --- 读端
@@ -49,19 +56,21 @@ int main()
         cp[i]._id = id;
         cp[i]._fd = pipefd[1];
     }
-    //给子进程分配任务
-    while(true)
-    {
-        int command = rand() % t.funcs.size();
-        int selectchild = rand() % childNUM;
-        write(cp[selectchild]._fd, &command, sizeof(int));
-        sleep(1);
-    }
+
+    // //给子进程分配任务
+    // while(true)
+    // {
+    //     int command = rand() % t.funcs.size();
+    //     int selectchild = rand() % childNUM;
+    //     write(cp[selectchild]._fd, &command, sizeof(int));
+    //     sleep(1);
+    // }
 
     //关闭父进程所有的写端
     for(int i = 0; i < childNUM; i++)
     {
         close(cp[i]._fd);
+        sleep(3);
     }
     return 0;
 }
