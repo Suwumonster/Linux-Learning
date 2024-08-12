@@ -13,13 +13,12 @@ int main()
 
     //4. IPC
     int cnt = 0;
-    char ch = 'A';
-    while(ch <= 'Z')
+    const char* ch = "i am process A";
+    while(cnt <= 10)
     {
-        buff[cnt++] = ch;
-        buff[cnt] = '\0';
-        ch++;
+        memcpy(buff, ch, strlen(ch));
         sleep(1);
+        cnt++;
     }
 
     //5. shm取消关联进程 shmdt

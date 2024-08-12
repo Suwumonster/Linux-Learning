@@ -19,7 +19,7 @@ int main()
     //4.IPC
     int cnt = 0;
     sleep(5);
-    while(cnt <= 30)
+    while(cnt <= 5)
     {
         cout << "client :>" << buff << endl;
         sleep(1);
